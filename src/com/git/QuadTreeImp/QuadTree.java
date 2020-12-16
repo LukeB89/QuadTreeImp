@@ -49,25 +49,27 @@ public class QuadTree<T> {
 		// setup new node for insertion
 		Node<T> inNode = new Node<T>(boundTL, boundBR, pix, null, null, null, null, null);
 		//check for no children
-		if(this.root.isLeaf()) {
-			
-			if (this.root.equalBounds(inNode)) {
-				// if parent node has equal bounds to new node update value
-				this.root.setNodeVal(inNode.getNodeVal());
-			}else {
-				// if not split children and get appropriate branch for recursive call
-				splitNodeChildren(this.root);
-				insert(getChildNode(this.root, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
-			}
-		}else {
-			if (this.root.equalBounds(inNode)) {
-				// if parent node has equal bounds to new node update value
-				this.root.setNodeVal(inNode.getNodeVal());
-			}else {
-				// if get appropriate branch for recursive call
-				insert(getChildNode(this.root, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
-			}
-		}
+//		if(this.root.isLeaf()) {
+//			
+//			if (this.root.equalBounds(inNode)) {
+//				// if parent node has equal bounds to new node update value
+//				this.root.setNodeVal(inNode.getNodeVal());
+//			}else {
+//				// if not split children and get appropriate branch for recursive call
+//				splitNodeChildren(this.root);
+//				insert(getChildNode(this.root, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
+//			}
+//		}else {
+//			if (this.root.equalBounds(inNode)) {
+//				// if parent node has equal bounds to new node update value
+//				this.root.setNodeVal(inNode.getNodeVal());
+//			}else {
+//				// if get appropriate branch for recursive call
+//				insert(getChildNode(this.root, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
+//			}
+//		}
+		
+		insert(this.root, inNode);
 
 	}
 	
@@ -79,14 +81,19 @@ public class QuadTree<T> {
 			if (parentNode.equalBounds(inNode)) {
 				// if parent node has equal bounds to new node update value
 				parentNode.setNodeVal(inNode.getNodeVal());
+				compressTree(parentNode);
 			}else {
-				splitNodeChildren(parentNode);
-				insert(getChildNode(parentNode, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
+				if (!parentNode.compareTo(inNode)) {
+					splitNodeChildren(parentNode);
+					insert(getChildNode(parentNode, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
+				}
+				
 			}
 		}else {
 			if (parentNode.equalBounds(inNode)) {
 				// if parent node has equal bounds to new node update value
 				parentNode.setNodeVal(inNode.getNodeVal());
+				compressTree(parentNode);
 			}else {
 				insert(getChildNode(parentNode, inNode.getBoundTL(), inNode.getBoundBR()), inNode);
 			}
@@ -127,11 +134,12 @@ public class QuadTree<T> {
 		Node<T> childTL = new Node<T>(new Point(pointsL[0],pointsL[1]), new Point(rowMid,colMid), parentNode.getNodeVal(), null, null, null, null, parentNode);
 		Node<T> childTR = new Node<T>(new Point(pointsL[0],(colMid+1)), new Point(rowMid,pointsR[1]), parentNode.getNodeVal(), null, null, null, null, parentNode);
 		Node<T> childBL = new Node<T>(new Point((rowMid+1),pointsL[1]), new Point(pointsR[0],colMid), parentNode.getNodeVal(), null, null, null, null, parentNode);
-		Node<T> childBR = new Node<T>(new Point((rowMid+1),(colMid+1)), new Point(pointsR[0],pointsR[1]), parentNode.getNodeVal(), null, null, null, null, this.root);
+		Node<T> childBR = new Node<T>(new Point((rowMid+1),(colMid+1)), new Point(pointsR[0],pointsR[1]), parentNode.getNodeVal(), null, null, null, null, parentNode);
 		parentNode.setChildTL(childTL);
 		parentNode.setChildTR(childTR);
 		parentNode.setChildBL(childBL);
 		parentNode.setChildBR(childBR);
+		parentNode.setNodeVal(null);
 	}
 	
 	
@@ -153,6 +161,44 @@ public class QuadTree<T> {
 			}
 		}.visit(this.root, "");
 		return buf.toString();
+	}
+	
+	private void compressTree(Node<T> curNode) {
+		
+		if (curNode.isLeaf()) {
+			Node<T> parentNode = curNode.getParent();
+			if (parentNode != null) {
+				compressTree(parentNode);
+			}
+			
+		}else {
+			Node<T> childTL = curNode.getChildTL();
+			Node<T> childTR = curNode.getChildTR();
+			Node<T> childBL = curNode.getChildBL();
+			Node<T> childBR = curNode.getChildBR();
+			
+			if (childTL.compareTo(childTR) && childTL.compareTo(childBL) && childTL.compareTo(childBR) && curNode.getNodeVal() == null) {
+				curNode.setNodeVal(childTL.getNodeVal());
+				curNode.setChildTL(null);
+				curNode.setChildTR(null);
+				curNode.setChildBL(null);
+				curNode.setChildBR(null);
+				Node<T> parentNode = curNode.getParent();
+				if (parentNode != null) {
+					compressTree(parentNode);
+				}
+				
+			}else if (curNode.getNodeVal() != null) {
+				curNode.setChildTL(null);
+				curNode.setChildTR(null);
+				curNode.setChildBL(null);
+				curNode.setChildBR(null);
+			} 
+				
+
+		}
+		
+		
 	}
 	
 }

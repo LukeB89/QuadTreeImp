@@ -20,4 +20,10 @@ public class Pixel<T> {
 		pixVal = newValue;
 	}
 	
+	public String toString() {
+		String pixString= ""+pixVal+"";
+		
+		return pixString;
+	}
+	
 }

@@ -125,8 +125,29 @@ public class Node<T> {
 		}
 	}
 	
+	public boolean compareTo(Node<T> testNode) {
+		if (this.nodeVal != null && testNode.getNodeVal() != null) {
+			if (this.nodeVal.getValue() == testNode.getNodeVal().getValue()) {
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+		
+	}
+	
 	public String toString() {
-		String nodeString = "["+this.boundTL.toString()+","+this.boundBR.toString()+"," +this.nodeVal.getValue()+"]";
+		String nodeString;
+		if (this.nodeVal == null) {
+			nodeString = "["+this.boundTL.toString()+","+this.boundBR.toString()+"," +this.nodeVal+"]";
+		}else {
+			nodeString = "["+this.boundTL.toString()+","+this.boundBR.toString()+"," +this.nodeVal.toString()+"]";
+		}
+
+		
+		
 		return nodeString;
 	}
 	
