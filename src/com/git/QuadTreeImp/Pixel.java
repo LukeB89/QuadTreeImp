@@ -19,4 +19,5 @@ public class Pixel<T> {
 	public void setValue(T newValue) {
 		pixVal = newValue;
 	}
+	
 }

@@ -117,4 +117,17 @@ public class Node<T> {
 		}
 	}
 	
+	public boolean equalBounds(Node<T> testNode) {
+		if (this.boundTL.compareTo(testNode.getBoundTL()) == 0 && this.boundBR.compareTo(testNode.getBoundBR()) == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String toString() {
+		String nodeString = "["+this.boundTL.toString()+","+this.boundBR.toString()+"," +this.nodeVal.getValue()+"]";
+		return nodeString;
+	}
+	
 }
