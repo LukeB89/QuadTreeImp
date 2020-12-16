@@ -1,7 +1,7 @@
 package com.git.QuadTreeImp;
 
 
-public class Node<T extends Comparable<T>> {
+public class Node<T> {
 	private Point boundTL;
 	private Point boundBR;
 	private Pixel<T> nodeVal;
@@ -27,21 +27,6 @@ public class Node<T extends Comparable<T>> {
 	}
 	
 
-	
-	public Point[] getBounds() {
-		Point[] bounds = {boundTL,boundBR};
-		return bounds;
-	}
-	
-//	@SuppressWarnings("unchecked")
-//	public Node<T>[] getChildren(){
-//		Node<T>[] childNodes = (Node<T>[]) new Object[4];
-//		childNodes[0] = childTL;
-//		childNodes[1] = childTR;
-//		childNodes[2] = childBL;
-//		childNodes[3] = childBR;
-//		return childNodes;
-//	}
 
 	public Node<T> getParent() {
 		return parent;
@@ -96,7 +81,12 @@ public class Node<T extends Comparable<T>> {
 	}
 
 	public void setBoundTL(Point boundTL) {
-		this.boundTL = boundTL;
+		if(boundTL != null) {
+			this.boundTL = boundTL;
+		}else {
+			this.boundTL = new Point();
+		}
+		
 	}
 
 	public Point getBoundBR() {
@@ -104,7 +94,27 @@ public class Node<T extends Comparable<T>> {
 	}
 
 	public void setBoundBR(Point boundBR) {
-		this.boundBR = boundBR;
+		if(boundBR != null) {
+			this.boundBR = boundBR;
+		}else {
+			this.boundBR = new Point();
+		}
+	}
+	
+	public boolean isLeaf() {
+		if (this.childTL == null && this.childTR == null && this.childBL == null && this.childBR == null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean withinBounds(Point testBound) {
+		if (this.boundTL.compareTo(testBound) >= 0 && this.boundBR.compareTo(testBound) <= 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }
