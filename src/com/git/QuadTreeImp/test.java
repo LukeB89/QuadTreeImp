@@ -21,6 +21,18 @@ public class test {
 		System.out.println(quadTree);
 		System.out.println("\n\n");
 		
+		System.out.println("Searching for {0,0}");
+		System.out.println(quadTree.search(new int[] {0,0}));
+		System.out.println("\n\n");
+		
+		System.out.println("Searching for {3,2}");
+		System.out.println(quadTree.search(new int[] {3,2}));
+		System.out.println("\n\n");
+		
+		System.out.println("Searching for {4,1}");
+		System.out.println(quadTree.search(new int[] {4,1}));
+		System.out.println("\n\n");
+		
 		quadTree.insert(new int[]{2,0}, true,1);
 		
 		System.out.println("First Update\n");
