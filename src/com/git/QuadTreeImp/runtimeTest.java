@@ -14,7 +14,7 @@ public class runtimeTest {
 
         for (int i = 1; i <= 30; i++) {
             results[i - 1][0] = (int)Math.pow(2, i);
-            results[i - 1][1] = (int)repeatedTimeFunc(i, 10000);
+            results[i - 1][1] = (int)repeatedTimeInsert(i, 10000);
         }
 
         // output the results to a csv file
@@ -28,7 +28,7 @@ public class runtimeTest {
 
     }
 
-    public static int timeFunc(int n){
+    public static int timeInsert(int n){
 
         // instantiate a tree with 2^^n nodes
         QuadTree<Boolean> tree = new QuadTree<>((int)Math.pow(2, n), false);
@@ -43,11 +43,11 @@ public class runtimeTest {
         return (int)(end - start);
     }
 
-    public static int repeatedTimeFunc(int n, int k){
+    public static int repeatedTimeInsert(int n, int k){
 
         int total = 0;
         for (int i = 0; i < k; i++) {
-            total += timeFunc(n);
+            total += timeInsert(n);
         }
 
         return total / k;
