@@ -1,7 +1,18 @@
 package com.git.QuadTreeImp;
+/**
+ * Implementation of a Node. For use in a Quadtree.
+ *
+ * @author Luke Byrne, Milo Bashford
+ */
 
-
+// Node class creation
 public class Node<T> {
+	/* Internal variable implementation
+	 * Points for bounds of current node.
+	 * Pixel for value of current Node
+	 * Nodes for each child and parent
+	 */
+	
 	private Point boundTL;
 	private Point boundBR;
 	private Pixel<T> nodeVal;
@@ -11,11 +22,14 @@ public class Node<T> {
 	private Node<T> childBR;
 	private Node<T> parent;
 	
+	// Default constructor
 	public Node() {
 		this(null,null,null,null,null,null,null,null);
 	}
 	
+	// Node Constructor. Takes Boundry Points, value Pixel and Child and Parent Nodes
 	public Node(Point tlBound,Point brBound, Pixel<T> val, Node<T> tl, Node<T> tr, Node<T> bl, Node<T> br, Node<T> p) {
+		
 		setBoundTL(tlBound);
 		setBoundBR(brBound);
 		setNodeVal(val);
@@ -27,7 +41,7 @@ public class Node<T> {
 	}
 	
 
-
+	// Start of Getters and Setters block
 	public Node<T> getParent() {
 		return parent;
 	}
@@ -81,6 +95,7 @@ public class Node<T> {
 	}
 
 	public void setBoundTL(Point boundTL) {
+		// ensures bound always has a value to prevent errors
 		if(boundTL != null) {
 			this.boundTL = boundTL;
 		}else {
@@ -94,13 +109,17 @@ public class Node<T> {
 	}
 
 	public void setBoundBR(Point boundBR) {
+		// ensures bound always has a value to prevent errors
 		if(boundBR != null) {
 			this.boundBR = boundBR;
 		}else {
 			this.boundBR = new Point();
 		}
 	}
+	// End of Getters and Setters block
 	
+	
+	// Checks if Node is a Leaf Node
 	public boolean isLeaf() {
 		if (this.childTL == null && this.childTR == null && this.childBL == null && this.childBR == null) {
 			return true;
@@ -109,6 +128,8 @@ public class Node<T> {
 		}
 	}
 	
+	
+	// checks to see if supplied Point is within the bounds of the current node.
 	public boolean withinBounds(Point testBound) {
 		if (this.boundTL.compareTo(testBound) >= 0 && this.boundBR.compareTo(testBound) <= 0) {
 			return true;
@@ -117,6 +138,8 @@ public class Node<T> {
 		}
 	}
 	
+	
+	// Checks to see if the current Node has the same bounds as the TestNode
 	public boolean equalBounds(Node<T> testNode) {
 		if (this.boundTL.compareTo(testNode.getBoundTL()) == 0 && this.boundBR.compareTo(testNode.getBoundBR()) == 0) {
 			return true;
@@ -125,7 +148,9 @@ public class Node<T> {
 		}
 	}
 	
+	// Checks to see if the current Node has the same Value as the TestNode
 	public boolean compareTo(Node<T> testNode) {
+		// if both are not nulls do comparison else return false
 		if (this.nodeVal != null && testNode.getNodeVal() != null) {
 			if (this.nodeVal.getValue() == testNode.getNodeVal().getValue()) {
 				return true;
@@ -138,6 +163,7 @@ public class Node<T> {
 		
 	}
 	
+	//Creates and Returns a string of the Node, Both Boundaries and the Pixel Value
 	public String toString() {
 		String nodeString;
 		if (this.nodeVal == null) {
