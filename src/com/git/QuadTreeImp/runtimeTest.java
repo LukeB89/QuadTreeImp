@@ -14,8 +14,8 @@ public class runtimeTest {
 
         for (int i = 1; i <= 30; i++) {
             results[i - 1][0] = (int)Math.pow(2, i);
-            results[i - 1][1] = repeatedTimeInsert(i, 10000);
-            results[i - 1][2] = repeatedTimeSearch(i, 10000);
+            results[i - 1][1] = repeatedTimeInsert(i, 1000000);
+            results[i - 1][2] = repeatedTimeSearch(i, 1000000);
         }
 
         // output the results to a csv file
