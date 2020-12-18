@@ -2,7 +2,7 @@ package com.git.QuadTreeImp;
 
 
 
-public class test {
+public class QuadTreeTest {
 	public static void main(String args[]) {
 		QuadTree<Boolean> quadTree = new QuadTree<Boolean>(8, false);
 		
