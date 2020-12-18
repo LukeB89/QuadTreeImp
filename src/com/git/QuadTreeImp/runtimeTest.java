@@ -31,7 +31,7 @@ public class runtimeTest {
     public static int timeFunc(int n){
 
         // instantiate a tree with 2^^n nodes
-        QuadTree<Boolean> tree = new QuadTree<>((int)Math.pow(2, n), false);
+        QuadTree<Boolean> tree = new QuadTree<Boolean>((int)Math.pow(2, n), false);
 
         // perform & time a worst-case insert into the tree
         long start = System.nanoTime();
